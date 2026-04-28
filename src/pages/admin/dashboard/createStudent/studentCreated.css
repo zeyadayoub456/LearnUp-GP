@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+.student-created-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  color: #151a2f;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(224, 229, 255, 0.68), transparent 34%),
+    #f4f3fb;
+  font-family:
+    "Plus Jakarta Sans",
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.student-created-page *,
+.student-created-page *::before,
+.student-created-page *::after {
+  box-sizing: border-box;
+}
+
+.student-created-page button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.student-created-card {
+  width: min(100%, 800px);
+  padding: 54px 58px 43px;
+  border: 1px solid rgba(238, 240, 250, 0.96);
+  border-radius: 32px;
+  background: #ffffff;
+  box-shadow: 0 26px 70px rgba(33, 43, 92, 0.12);
+  text-align: center;
+}
+
+.student-created-icon {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2024d3 0%, #0062e8 100%);
+  box-shadow: 0 18px 34px rgba(20, 76, 218, 0.28);
+}
+
+.student-created-card h1 {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #151a2f;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.student-created-subtitle {
+  max-width: 645px;
+  margin: 14px auto 0;
+  color: #697086;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.62;
+}
+
+.student-created-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin: 36px 0 32px;
+}
+
+.student-created-info-card {
+  min-height: 104px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 16px;
+  border: 1px solid #eef0fb;
+  border-radius: 18px;
+  background: #f0f1fa;
+}
+
+.student-created-info-card span {
+  color: #697086;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.student-created-info-card strong {
+  color: #151a2f;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.28;
+}
+
+.student-created-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.student-created-button {
+  min-width: 198px;
+  height: 53px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 13px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.student-created-button--primary {
+  color: #ffffff;
+  background: linear-gradient(90deg, #2024d3 0%, #0062e8 100%);
+  box-shadow: 0 14px 26px rgba(11, 80, 219, 0.22);
+}
+
+.student-created-button--secondary {
+  color: #34405f;
+  background: #e8e9f2;
+}
+
+.student-created-return {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  margin-top: 30px;
+  border: 0;
+  color: #045fe9;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+@media (max-width: 760px) {
+  .student-created-page {
+    padding: 28px 18px;
+  }
+
+  .student-created-card {
+    padding: 42px 24px 34px;
+    border-radius: 26px;
+  }
+
+  .student-created-card h1 {
+    font-size: 27px;
+  }
+
+  .student-created-info {
+    grid-template-columns: 1fr;
+  }
+
+  .student-created-actions {
+    flex-direction: column;
+  }
+
+  .student-created-button {
+    width: 100%;
+  }
+}
