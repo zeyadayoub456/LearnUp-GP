@@ -27,7 +27,6 @@
   object-fit: contain;
   opacity: 1;
   filter: brightness(0%) saturate(100%);
-  color: rgb(102, 107, 111);
 }
 
 .auth-title {

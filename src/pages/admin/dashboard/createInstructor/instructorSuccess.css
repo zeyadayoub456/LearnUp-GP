@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+.instructor-success-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: #1c1e2e;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(218, 225, 255, 0.72), transparent 34%),
+    #f7f6fd;
+  font-family:
+    "Plus Jakarta Sans",
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.instructor-success-page *,
+.instructor-success-page *::before,
+.instructor-success-page *::after {
+  box-sizing: border-box;
+}
+
+.instructor-success-page button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.instructor-success-shell {
+  width: min(100%, 720px);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.instructor-success-icon {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 28px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2024d3 0%, #2f5bff 100%);
+}
+
+.instructor-success-icon::before {
+  content: "";
+  position: absolute;
+  inset: -15px;
+  z-index: -1;
+  border-radius: inherit;
+  background: rgba(47, 91, 255, 0.1);
+}
+
+.instructor-success-shell h1 {
+  margin: 0;
+  color: #1c1e2e;
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.instructor-success-shell h1 span {
+  display: block;
+}
+
+.instructor-success-subtitle {
+  max-width: 610px;
+  margin: 16px 0 0;
+  color: #858b9f;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.64;
+}
+
+.instructor-success-card {
+  width: 100%;
+  min-height: 214px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 148px;
+  gap: 28px;
+  align-items: center;
+  margin: 36px 0 31px;
+  padding: 29px 31px;
+  border: 1px solid rgba(237, 240, 250, 0.96);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(34, 44, 90, 0.11);
+  text-align: left;
+}
+
+.instructor-success-details {
+  display: grid;
+  gap: 21px;
+}
+
+.instructor-success-details span {
+  display: block;
+  margin-bottom: 7px;
+  color: #8a8fa3;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.17em;
+}
+
+.instructor-success-details strong {
+  display: block;
+  color: #1c1e2e;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.22;
+}
+
+.instructor-success-avatar {
+  width: 136px;
+  height: 136px;
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  overflow: hidden;
+  border-radius: 24px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #172033 0%, #303957 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.instructor-success-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.instructor-success-avatar span {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.instructor-success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.instructor-success-button {
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+
+.instructor-success-button--primary {
+  min-width: 188px;
+  color: #ffffff;
+  background: linear-gradient(90deg, #2024d3 0%, #2f5bff 100%);
+  box-shadow: 0 15px 30px rgba(47, 91, 255, 0.24);
+}
+
+.instructor-success-button--secondary {
+  min-width: 260px;
+  color: #3f4860;
+  background: #e7e9f1;
+}
+
+.instructor-success-return {
+  min-height: 32px;
+  margin-top: 29px;
+  border: 0;
+  color: #2f5bff;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+@media (max-width: 720px) {
+  .instructor-success-page {
+    padding: 38px 18px;
+  }
+
+  .instructor-success-shell h1 {
+    font-size: 31px;
+  }
+
+  .instructor-success-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .instructor-success-avatar {
+    justify-self: center;
+    order: -1;
+  }
+
+  .instructor-success-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .instructor-success-button {
+    width: 100%;
+  }
+}
