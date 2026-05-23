@@ -31,6 +31,7 @@ const RoleCard = ({ role, selected, onSelect }) => {
       <div className="icon">{role.icon}</div>
       <h3>{role.title}</h3>
       <p>{role.desc}</p>
+
       <button type="button" onClick={() => onSelect(role.id)}>
         Select {role.title}
       </button>
@@ -41,24 +42,37 @@ const RoleCard = ({ role, selected, onSelect }) => {
 export default function WhoAreYou() {
   const [selectedRole, setSelectedRole] = useState("");
   const navigate = useNavigate();
-  const handleContinue = () => {
-    console.log("selected role:", selectedRole);
 
-    if (selectedRole === "student") {
-      navigate("/create-account");
+  // ✅ select بس بدون navigation
+  const handleSelectRole = (roleId) => {
+    setSelectedRole(roleId);
+  };
+
+  // ✅ navigation هنا بس
+  const handleContinue = () => {
+    if (selectedRole === "admin") {
+      navigate("/admin/dashboard");
       return;
     }
 
-    navigate("/register");
+    if (selectedRole === "student") {
+      navigate("/login");
+      return;
+    }
+
+    if (selectedRole === "instructor") {
+      navigate("/register");
+      return;
+    }
   };
 
   return (
     <div className="container">
       <AuthHeader />
 
-      {/* Content */}
       <div className="content">
         <h1>Who are you?</h1>
+
         <p className="subtitle">
           Please select your role to continue to the platform. Your workspace
           will be customized based on your selection.
@@ -70,7 +84,7 @@ export default function WhoAreYou() {
               key={role.id}
               role={role}
               selected={selectedRole === role.id}
-              onSelect={setSelectedRole}
+              onSelect={handleSelectRole}
             />
           ))}
         </div>
@@ -88,7 +102,6 @@ export default function WhoAreYou() {
         </p>
       </div>
 
-      {/* Footer */}
       <div className="footer">
         <span>© 2024 LearnUp Platform</span>
         <span>Privacy Policy</span>
