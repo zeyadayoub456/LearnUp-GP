@@ -202,6 +202,16 @@
   flex-shrink: 0;
 }
 
+.students-top-profile-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
 .students-notification-button {
   position: relative;
   display: grid;
@@ -299,7 +309,7 @@
 .students-filter-card {
   min-height: 76px;
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) 164px 150px 46px;
+  grid-template-columns: minmax(240px, 1fr) 150px 150px 190px 46px;
   align-items: center;
   gap: 14px;
   margin-bottom: 23px;
@@ -350,20 +360,20 @@
 }
 
 .students-select-field {
-  height: 44px;
-  gap: 8px;
-  padding: 0 12px;
-  border: 1px solid #e7eaf4;
-  border-radius: 12px;
-  background: #fbfcff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: auto;
+  gap: 6px;
 }
 
 .students-select-field span,
 .students-rows-field span {
   color: #8a91a8;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
@@ -373,10 +383,17 @@
   border: 0;
   outline: 0;
   color: #111827;
-  background: transparent;
+  background: #fbfcff;
   font-size: 12px;
   font-weight: 900;
   cursor: pointer;
+}
+
+.students-select-field select {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #e7eaf4;
+  border-radius: 12px;
 }
 
 .students-filter-button {
@@ -439,9 +456,101 @@
 }
 
 .students-table tbody tr {
+  cursor: pointer;
   transition:
     background-color 180ms ease,
     transform 180ms ease;
+}
+
+.students-view-profile {
+  min-width: 100px;
+  height: 31px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--students-primary);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.students-profile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, .42);
+  backdrop-filter: blur(5px);
+}
+
+.students-profile-modal {
+  position: relative;
+  width: min(430px, 100%);
+  padding: 34px 32px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(15, 23, 42, .28);
+}
+
+.students-profile-modal > button {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.students-profile-modal img {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+}
+
+.students-profile-modal h2 {
+  margin-top: 18px;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.students-profile-modal p {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.students-profile-modal dl {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.students-profile-modal dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 15px;
+  border-radius: 10px;
+  background: #f4f6fb;
+}
+
+.students-profile-modal dt {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.students-profile-modal dd {
+  margin: 0;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 850;
+  text-align: right;
 }
 
 .students-table tbody tr:hover {
@@ -581,7 +690,7 @@
   }
 
   .students-filter-card {
-    grid-template-columns: 1fr 160px 146px 46px;
+    grid-template-columns: 1fr 150px 150px 180px 46px;
   }
 
   .students-page-header h1 {

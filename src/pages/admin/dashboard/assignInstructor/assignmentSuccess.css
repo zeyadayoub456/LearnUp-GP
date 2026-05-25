@@ -193,11 +193,16 @@
 }
 
 .assignment-success-shell-v2 footer button:nth-child(2) {
+  height: 52px;
+  padding: 0 32px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   gap: 9px;
   background: #e2e7ee;
   color: #0b20cf;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .assignment-success-shell-v2 footer button:last-child {

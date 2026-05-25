@@ -6,13 +6,13 @@ import AdminTopbar from "../../../../components/admin/AdminTopbar.jsx";
 import "./createInstructor.css";
 
 const instructors = [
-  ["Dr. Sarah Jenkins", "s.jenkins@eduadmin.com", "#INST-4421", "COMPUTER SCIENCE", "1/3", 33],
-  ["Prof. Michael Chen", "m.chen@eduadmin.com", "#INST-8829", "COMPUTER SCIENCE", "2/3", 66],
-  ["Dr. Elena Rodriguez", "e.rod@eduadmin.com", "#INST-1104", "COMPUTER SCIENCE", "3/3", 100],
-  ["Prof. David Wilson", "d.wilson@eduadmin.com", "#INST-9923", "COMPUTER SCIENCE", "1/3", 33],
-  ["Prof. Sarah Mitchell", "s.mitchell@eduadmin.com", "#INST-2022", "COMPUTER SCIENCE", "1/3", 33],
-  ["Dr. Arjun Kapoor", "a.kapoor@eduadmin.com", "#INST-1105", "COMPUTER SCIENCE", "3/3", 100],
-  ["Prof. Elena Rodriguez", "e.rodriguez@eduadmin.com", "#INST-8829", "COMPUTER SCIENCE", "2/3", 66],
+  { name: "Dr. Sarah Jenkins", email: "s.jenkins@eduadmin.com", id: "#FAC-4421", department: "COMPUTER SCIENCE", load: "1/3", progress: 33, status: "AVAILABLE" },
+  { name: "Prof. Michael Chen", email: "m.chen@eduadmin.com", id: "#FAC-8829", department: "COMPUTER SCIENCE", load: "2/3", progress: 66, status: "ACTIVE" },
+  { name: "Dr. Elena Rodriguez", email: "e.rod@eduadmin.com", id: "#FAC-1104", department: "COMPUTER SCIENCE", load: "3/3", progress: 100, status: "FULL" },
+  { name: "Prof. David Wilson", email: "d.wilson@eduadmin.com", id: "#FAC-9923", department: "COMPUTER SCIENCE", load: "1/3", progress: 33, status: "AVAILABLE" },
+  { name: "Prof. Sarah Mitchell", email: "s.mitchell@eduadmin.com", id: "#FAC-2022", department: "COMPUTER SCIENCE", load: "1/3", progress: 33, status: "AVAILABLE" },
+  { name: "Dr. Arjun Kapoor", email: "a.kapoor@eduadmin.com", id: "#FAC-1105", department: "COMPUTER SCIENCE", load: "3/3", progress: 100, status: "FULL" },
+  { name: "Prof. Elena Rodriguez", email: "e.rodriguez@eduadmin.com", id: "#FAC-8830", department: "COMPUTER SCIENCE", load: "2/3", progress: 66, status: "ACTIVE" },
 ];
 
 function InstructorModal({ onClose }) {
@@ -24,7 +24,7 @@ function InstructorModal({ onClose }) {
         <button type="button" className="instructor-create-modal__close" onClick={onClose} aria-label="Close">
           <X size={20} />
         </button>
-        <h2>Create New instructor</h2>
+        <h2>Create New Faculty Member</h2>
         <p>Enroll a new member to the academic portal</p>
 
         <section>
@@ -42,23 +42,48 @@ function InstructorModal({ onClose }) {
         <section>
           <h3 className="is-academic"><span>☞</span> ACADEMIC INFO</h3>
           <div className="instructor-modal-grid">
-            <label>Student ID<input defaultValue="#STU-225140" /></label>
+            <label>Faculty Member ID<input defaultValue="#FAC-225140" /></label>
             <label>Department<select defaultValue="Artificial intelligence"><option>Artificial intelligence</option></select></label>
           </div>
-          <div className="instructor-modal-note"><Info size={16} />An invitation email with setup instructions will be automatically sent to the student upon creation.</div>
+          <div className="instructor-modal-note"><Info size={16} />An invitation email with setup instructions will be automatically sent to the faculty member upon creation.</div>
         </section>
 
         <footer>
           <button type="button" onClick={onClose}>CANCEL</button>
-          <button type="submit">CREATE INSTRUCTOR</button>
+          <button type="submit">CREATE FACULTY MEMBER</button>
         </footer>
       </form>
     </div>
   );
 }
 
+function InstructorProfileModal({ instructor, onClose }) {
+  if (!instructor) return null;
+
+  return (
+    <div className="instructor-modal-overlay">
+      <section className="instructor-profile-modal" aria-label={`${instructor.name} profile`}>
+        <button type="button" className="instructor-create-modal__close" onClick={onClose} aria-label="Close">
+          <X size={20} />
+        </button>
+        <span className="admin-person-avatar">{instructor.name.split(" ").slice(-2).map((part) => part[0]).join("")}</span>
+        <h2>{instructor.name}</h2>
+        <p>{instructor.email}</p>
+        <dl>
+          <div><dt>Faculty Member ID</dt><dd>{instructor.id}</dd></div>
+          <div><dt>Email</dt><dd>{instructor.email}</dd></div>
+          <div><dt>Department</dt><dd>{instructor.department}</dd></div>
+          <div><dt>Course Load</dt><dd>{instructor.load}</dd></div>
+          <div><dt>Status</dt><dd><span className={`faculty-status-pill faculty-status-pill--${instructor.status.toLowerCase()}`}>{instructor.status}</span></dd></div>
+        </dl>
+      </section>
+    </div>
+  );
+}
+
 export default function CreateInstructor({ initialModalOpen = false }) {
   const [open, setOpen] = useState(initialModalOpen);
+  const [selectedInstructor, setSelectedInstructor] = useState(null);
 
   return (
     <div className="admin-app-shell create-instructor-page-v2">
@@ -67,7 +92,7 @@ export default function CreateInstructor({ initialModalOpen = false }) {
         <AdminTopbar />
         <main className="create-instructor-main">
           <section className="instructor-page-header">
-            <h1>Instructor Management</h1>
+            <h1>Faculty Member</h1>
             <p>Oversee academic staff, course loads, and departmental assignments.</p>
           </section>
 
@@ -76,32 +101,47 @@ export default function CreateInstructor({ initialModalOpen = false }) {
             <table>
               <thead>
                 <tr>
-                  <th>INSTRUCTOR NAME</th>
-                  <th>INSTRUCTOR ID</th>
+                  <th>FACULTY MEMBER NAME</th>
+                  <th>FACULTY MEMBER ID</th>
                   <th>DEPARTMENT</th>
                   <th>COURSES LOAD</th>
                   <th>ACTIONS</th>
                 </tr>
               </thead>
               <tbody>
-                {instructors.map(([name, email, id, dept, load, progress], index) => {
-                  const full = progress === 100;
+                {instructors.map((instructor, index) => {
+                  const full = instructor.progress === 100;
                   return (
-                    <tr key={`${id}-${index}`}>
+                    <tr
+                      key={`${instructor.id}-${index}`}
+                      onClick={() => setSelectedInstructor(instructor)}
+                      className={`instructor-table-row ${selectedInstructor?.id === instructor.id ? "is-selected" : ""}`}
+                    >
                       <td>
-                        <span className="admin-person-avatar">{name.split(" ").slice(-2).map((p) => p[0]).join("")}</span>
-                        <div><strong>{name}</strong><small>{email}</small></div>
+                        <span className="admin-person-avatar">{instructor.name.split(" ").slice(-2).map((p) => p[0]).join("")}</span>
+                        <div><strong>{instructor.name}</strong><small>{instructor.email}</small></div>
                       </td>
-                      <td>{id}</td>
-                      <td><span className="instructor-dept-pill">{dept}</span></td>
+                      <td>{instructor.id}</td>
+                      <td><span className="instructor-dept-pill">{instructor.department}</span></td>
                       <td>
                         <div className="instructor-load">
-                          <span>{load}</span>
+                          <span>{instructor.load}</span>
                           {full && <b>FULL</b>}
-                          <i><em className={full ? "is-full" : ""} style={{ width: `${progress}%` }} /></i>
+                          <i><em className={full ? "is-full" : ""} style={{ width: `${instructor.progress}%` }} /></i>
                         </div>
                       </td>
-                      <td><button type="button" aria-label={`Actions for ${name}`}><MoreVertical size={18} /></button></td>
+                      <td>
+                        <button
+                          type="button"
+                          className="instructor-view-profile"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setSelectedInstructor(instructor);
+                          }}
+                        >
+                          View Profile <MoreVertical size={14} />
+                        </button>
+                      </td>
                     </tr>
                   );
                 })}
@@ -109,12 +149,13 @@ export default function CreateInstructor({ initialModalOpen = false }) {
             </table>
             <footer>
               <div><button type="button">‹</button><span>Page 1 of<br />12</span><button type="button">›</button></div>
-              <button type="button" onClick={() => setOpen(true)}><UserPlus size={16} /> Create New Instructor</button>
+              <button type="button" onClick={() => setOpen(true)}><UserPlus size={16} /> Create New Faculty Member</button>
             </footer>
           </section>
         </main>
       </div>
       {open && <InstructorModal onClose={() => setOpen(false)} />}
+      {selectedInstructor && <InstructorProfileModal instructor={selectedInstructor} onClose={() => setSelectedInstructor(null)} />}
     </div>
   );
 }

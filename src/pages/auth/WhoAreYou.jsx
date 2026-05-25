@@ -51,7 +51,7 @@ export default function WhoAreYou() {
   // ✅ navigation هنا بس
   const handleContinue = () => {
     if (selectedRole === "admin") {
-      navigate("/admin/dashboard");
+      navigate("/admin/login");
       return;
     }
 
@@ -61,7 +61,7 @@ export default function WhoAreYou() {
     }
 
     if (selectedRole === "instructor") {
-      navigate("/register");
+      navigate("/faculty/login");
       return;
     }
   };

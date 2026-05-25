@@ -19,7 +19,7 @@ export default function StudentCreated() {
         </div>
 
         <div className="student-created-actions">
-          <button type="button">VIEW PROFILE</button>
+          <button type="button" onClick={() => navigate("/student/profile")}>VIEW PROFILE</button>
           <button type="button" onClick={() => navigate("/admin/create-student")}>CREATE ANOTHER STUDENT</button>
         </div>
         <button type="button" className="student-created-return" onClick={() => navigate("/admin/create-student")}>

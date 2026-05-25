@@ -16,6 +16,13 @@ import CourseBoard from "../pages/student/courseBoard/CourseBoard.jsx";
 import AcademicMap from "../pages/student/academicMap/AcademicMap.jsx";
 import SemesterResult from "../pages/student/semesterResult/SemesterResult.jsx";
 import AcademicAdvisorBot from "../pages/student/academicAdvisorBot/AcademicAdvisorBot.jsx";
+import StudentProfile from "../pages/student/profile/StudentProfile.jsx";
+import FacultyProfile from "../pages/faculty/profile/FacultyProfile.jsx";
+import AdminProfile from "../pages/admin/profile/AdminProfile.jsx";
+import FacultyLogin from "../pages/faculty/login/FacultyLogin.jsx";
+import FacultyDashboard from "../pages/faculty/dashboard/FacultyDashboard.jsx";
+import FacultyCourseBoard from "../pages/faculty/courseBoard/FacultyCourseBoard.jsx";
+import FacultyAcademicAdvisorBot from "../pages/faculty/academicAdvisorBot/FacultyAcademicAdvisorBot.jsx";
 import WhoAreYou from '../pages/auth/WhoAreYou'
 import NotFoundPage from '../pages/shared/NotFoundPage'
 
@@ -23,6 +30,7 @@ function AppRouter() {
   return (
     <Routes>
       <Route path="/admin/dashboard" element={<Dashboard />} />
+      <Route path="/admin/profile" element={<AdminProfile />} />
       <Route path="/admin/create-student" element={<CreateStudent />} />
       <Route path="/admin/create-instructor" element={<CreateInstructor />} />
       <Route path="/admin/create-instructor-profile" element={<CreateInstructor initialModalOpen />} />
@@ -44,6 +52,12 @@ function AppRouter() {
       <Route path="/student/academic-map" element={<AcademicMap />} />
       <Route path="/student/course-board" element={<CourseBoard />} />
       <Route path="/student/semester-result" element={<SemesterResult />} />
+      <Route path="/student/profile" element={<StudentProfile />} />
+      <Route path="/faculty/login" element={<FacultyLogin />} />
+      <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
+      <Route path="/faculty/course-board" element={<FacultyCourseBoard />} />
+      <Route path="/faculty/academic-advisor-bot" element={<FacultyAcademicAdvisorBot />} />
+      <Route path="/faculty/profile" element={<FacultyProfile />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )

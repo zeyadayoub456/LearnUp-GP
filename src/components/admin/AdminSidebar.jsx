@@ -13,8 +13,8 @@ import "./adminShell.css";
 const navItems = [
   { label: "Dashboard", icon: Grid2X2, to: "/admin/dashboard" },
   { label: "create student", icon: UserPlus, to: "/admin/create-student" },
-  { label: "create instructor", icon: ShieldCheck, to: "/admin/create-instructor" },
-  { label: "assign instructor", icon: UsersRound, to: "/admin/assign-instructor" },
+  { label: "create faculty member", icon: ShieldCheck, to: "/admin/create-instructor" },
+  { label: "assign faculty member", icon: UsersRound, to: "/admin/assign-instructor" },
 ];
 
 export default function AdminSidebar() {

@@ -82,7 +82,7 @@ export default function InstructorProfile() {
         <article className="ip-card">
           <div className="ip-cover" />
 
-          <div className="ip-avatar" aria-label="Instructor avatar">
+          <div className="ip-avatar" aria-label="Faculty member avatar">
             {instructor.avatar ? (
               <img alt="" src={instructor.avatar} />
             ) : (
@@ -93,10 +93,10 @@ export default function InstructorProfile() {
           <div className="ip-body">
             <h1 id="instructor-profile-name">{instructor.fullName}</h1>
             <p className="ip-subtitle">
-              Senior Instructor <span>{"\u2022"}</span> {instructor.instructorId}
+              Senior Faculty Member <span>{"\u2022"}</span> {instructor.instructorId}
             </p>
 
-            <div className="ip-actions" aria-label="Instructor profile actions">
+            <div className="ip-actions" aria-label="Faculty member profile actions">
               <button className="ip-action-button ip-action-button--edit" type="button">
                 {Icons.pencil}
                 <span>Edit Profile</span>

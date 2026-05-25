@@ -53,6 +53,7 @@
   font-size: 17px;
   font-weight: 850;
   line-height: 1;
+  text-decoration: none;
 }
 
 .admin-sidebar-v2__link--active,
@@ -76,6 +77,7 @@
   gap: 9px;
   font-size: 12px;
   font-weight: 850;
+  text-decoration: none;
 }
 
 .admin-sidebar-v2__bot {
@@ -161,6 +163,16 @@
   display: grid;
   justify-items: end;
   gap: 1px;
+}
+
+.admin-topbar-v2__profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
 .admin-topbar-v2__user strong {

@@ -6,15 +6,18 @@ import AdminTopbar from "../../../../components/admin/AdminTopbar.jsx";
 import "./createStudent.css";
 
 const students = [
-  ["Ahmed Ayman", "ahmed@uni.edu", "#STU-225140", "Level 1", "Computer Science"],
-  ["Jordan Henderson", "j.henderson@uni.edu", "#STU-225120", "Level 4", "Computer Science"],
-  ["Elena Rodriguez", "e.rodriguez@uni.edu", "#STU-225122", "Level 2", "Computer Science"],
-  ["Marcus Aurelius", "m.aurelius@uni.edu", "#STU-225144", "Level 4", "Computer Science"],
-  ["Sarah Jenkins", "s.jenkins@uni.edu", "#STU-225130", "Level 1", "Computer Science"],
-  ["Omar Khalid", "o.khalid@uni.edu", "#STU-225123", "Level 4", "Computer Science"],
-  ["Layla Mansour", "l.mansour@uni.edu", "#STU-225013", "Level 1", "Computer Science"],
-  ["Zaid Ahmed", "z.ahmed@uni.edu", "#STU-225234", "Level 2", "Computer Science"],
+  { name: "Ahmed Ayman", email: "ahmed@uni.edu", id: "#STU-225140", level: "Level 1", department: "Computer Science" },
+  { name: "Jordan Henderson", email: "j.henderson@uni.edu", id: "#STU-225120", level: "Level 4", department: "Artificial Intelligence" },
+  { name: "Elena Rodriguez", email: "e.rodriguez@uni.edu", id: "#STU-225122", level: "Level 2", department: "Information Systems" },
+  { name: "Marcus Aurelius", email: "m.aurelius@uni.edu", id: "#STU-225144", level: "Level 4", department: "Cyber Security" },
+  { name: "Sarah Jenkins", email: "s.jenkins@uni.edu", id: "#STU-225130", level: "Level 1", department: "Computer Science" },
+  { name: "Omar Khalid", email: "o.khalid@uni.edu", id: "#STU-225123", level: "Level 4", department: "Artificial Intelligence" },
+  { name: "Layla Mansour", email: "l.mansour@uni.edu", id: "#STU-225013", level: "Level 3", department: "Information Systems" },
+  { name: "Zaid Ahmed", email: "z.ahmed@uni.edu", id: "#STU-225234", level: "Level 2", department: "Cyber Security" },
 ];
+
+const levels = ["All Levels", "Level 1", "Level 2", "Level 3", "Level 4"];
+const departments = ["All Departments", "Computer Science", "Artificial Intelligence", "Information Systems", "Cyber Security"];
 
 function StudentModal({ onClose }) {
   const navigate = useNavigate();
@@ -63,6 +66,19 @@ function StudentModal({ onClose }) {
 
 export default function CreateStudent() {
   const [open, setOpen] = useState(false);
+  const [selectedLevel, setSelectedLevel] = useState("All Levels");
+  const [selectedDepartment, setSelectedDepartment] = useState("All Departments");
+  const navigate = useNavigate();
+
+  const filteredStudents = students.filter((student) => {
+    const levelMatches = selectedLevel === "All Levels" || student.level === selectedLevel;
+    const departmentMatches = selectedDepartment === "All Departments" || student.department === selectedDepartment;
+    return levelMatches && departmentMatches;
+  });
+
+  const openStudentProfile = () => {
+    navigate("/student/profile");
+  };
 
   return (
     <div className="admin-app-shell create-student-page-v2">
@@ -78,8 +94,18 @@ export default function CreateStudent() {
               <span>FIND STUDENTS</span>
               <label><Search size={16} /><input type="search" placeholder="Search by student name or ID" /></label>
             </div>
-            <label><span>LEVEL</span><select defaultValue="All Levels"><option>All Levels</option></select></label>
-            <label><span>DEPARTMENT</span><select defaultValue="All Departments"><option>All Departments</option></select></label>
+            <label className="student-filter-select">
+              <span>LEVEL</span>
+              <select value={selectedLevel} onChange={(event) => setSelectedLevel(event.target.value)}>
+                {levels.map((level) => <option key={level}>{level}</option>)}
+              </select>
+            </label>
+            <label className="student-filter-select">
+              <span>DEPARTMENT</span>
+              <select value={selectedDepartment} onChange={(event) => setSelectedDepartment(event.target.value)}>
+                {departments.map((department) => <option key={department}>{department}</option>)}
+              </select>
+            </label>
           </section>
 
           <section className="student-table-card">
@@ -90,24 +116,37 @@ export default function CreateStudent() {
                   <th>STUDENT ID</th>
                   <th>LEVEL</th>
                   <th>DEPARTMENT</th>
+                  <th>ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                {students.map(([name, email, id, level, department], index) => (
-                  <tr key={id}>
+                {filteredStudents.map((student, index) => (
+                  <tr key={student.id} onClick={openStudentProfile} className="student-table-row">
                     <td>
-                      <span className={`student-table-avatar avatar-${index}`}>{name.split(" ").map((p) => p[0]).join("").slice(0, 2)}</span>
-                      <div><strong>{name}</strong><small>{email}</small></div>
+                      <span className={`student-table-avatar avatar-${index}`}>{student.name.split(" ").map((p) => p[0]).join("").slice(0, 2)}</span>
+                      <div><strong>{student.name}</strong><small>{student.email}</small></div>
                     </td>
-                    <td>{id}</td>
-                    <td><span className="student-level-pill">{level}</span></td>
-                    <td>{department}</td>
+                    <td>{student.id}</td>
+                    <td><span className="student-level-pill">{student.level}</span></td>
+                    <td>{student.department}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="student-view-profile"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          openStudentProfile();
+                        }}
+                      >
+                        View Profile
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <footer>
-              <span>Showing 1 to 8 of 248 students</span>
+              <span>Showing {filteredStudents.length} of {students.length} students</span>
               <div>
                 <button type="button">‹</button><button type="button">2</button><button type="button" className="active">1</button><button type="button">3</button><button type="button">›</button>
               </div>
