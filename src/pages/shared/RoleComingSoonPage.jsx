@@ -9,9 +9,9 @@ function RoleComingSoonPage() {
   const navigate = useNavigate()
   const { logout, session } = useAuth()
 
-  function handleReturnToRoles() {
+  function handleReturnToLogin() {
     logout()
-    navigate(routePaths.roleSelection, { replace: true })
+    navigate(routePaths.login, { replace: true })
   }
 
   return (
@@ -26,9 +26,9 @@ function RoleComingSoonPage() {
             intentionally focused on the student side first.
           </p>
           <div className="inline-actions">
-            <AppButton onClick={handleReturnToRoles}>Switch role</AppButton>
-            <AppButton to={routePaths.roleSelection} variant="secondary">
-              Explore student path
+            <AppButton onClick={handleReturnToLogin}>Back to login</AppButton>
+            <AppButton to={routePaths.login} variant="secondary">
+              Use another account
             </AppButton>
           </div>
         </SurfaceCard>

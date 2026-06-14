@@ -1,34 +1,77 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Eye, Lock, Mail } from "lucide-react";
 import AuthHeader from "../../components/AuthHeader";
+import {
+  detectRoleFromEmail,
+  getCurrentSession,
+  getDashboardPathForRole,
+  getOrCreateDemoAccountForLogin,
+  setCurrentSession,
+  setSelectedFacultyId,
+  setSelectedStudentId,
+} from "../../utils/learnupRecords.js";
 import "./loginPage.css";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
   const passwordPlaceholder = "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022";
+  const session = getCurrentSession();
+
+  if (session?.role) {
+    return <Navigate to={getDashboardPathForRole(session.role)} replace />;
+  }
 
   const handleLogin = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const email = formData.get("email")?.toString().trim() ?? "";
-    const isEruEmail = /^[^\s@]+@eru\.edu\.eg$/i.test(email);
+    const password = formData.get("password")?.toString().trim() ?? "";
 
-    console.log("login submitted", {
-      email,
-      rememberMe,
-    });
+    if (!email) {
+      setEmailError("Email is required.");
+      setLoginError("");
+      return;
+    }
 
-    if (!isEruEmail) {
-      setEmailError("Please login with your ERU email ending with @eru.edu.eg");
+    if (!password) {
+      setEmailError("");
+      setLoginError("Password is required.");
+      return;
+    }
+
+    const role = detectRoleFromEmail(email);
+
+    if (!role) {
+      setEmailError("Invalid institutional email domain.");
+      setLoginError("");
       return;
     }
 
     setEmailError("");
-    navigate("/student/dashboard");
+    // Temporary demo authentication: any non-empty password is accepted for valid ERU domains.
+    // Replace this flow with a backend API login once real authentication is implemented.
+    const account = getOrCreateDemoAccountForLogin(role, email);
+
+    if (role === "student") {
+      setSelectedStudentId(account.id);
+    }
+
+    if (role === "faculty") {
+      setSelectedFacultyId(account.id);
+    }
+
+    setLoginError("");
+    setCurrentSession(role, {
+      email: account.email || email,
+      name: account.name || account.fullName || email,
+      userId: account.id || account.studentId || account.facultyId || account.adminId || "",
+    });
+    navigate(getDashboardPathForRole(role), { replace: true });
   };
 
   return (
@@ -62,7 +105,7 @@ function LoginPage() {
             </button>
           </div>
 
-          <form className="login-form" onSubmit={handleLogin}>
+          <form className="login-form" onSubmit={handleLogin} noValidate>
             <label className="login-field">
               <span className="login-field__label">Email Address</span>
               <span className="login-field__control">
@@ -76,6 +119,9 @@ function LoginPage() {
                   onChange={() => {
                     if (emailError) {
                       setEmailError("");
+                    }
+                    if (loginError) {
+                      setLoginError("");
                     }
                   }}
                 />
@@ -102,6 +148,12 @@ function LoginPage() {
                   name="password"
                   placeholder={passwordPlaceholder}
                   autoComplete="current-password"
+                  aria-invalid={loginError ? "true" : "false"}
+                  onChange={() => {
+                    if (loginError) {
+                      setLoginError("");
+                    }
+                  }}
                 />
                 <button
                   type="button"
@@ -113,6 +165,12 @@ function LoginPage() {
                 </button>
               </span>
             </div>
+
+            {loginError && (
+              <span className="login-form__error" role="alert">
+                {loginError}
+              </span>
+            )}
 
             <label className="login-remember">
               <input

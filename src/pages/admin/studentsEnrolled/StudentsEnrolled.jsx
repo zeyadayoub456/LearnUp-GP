@@ -1,6 +1,14 @@
 import "./studentsEnrolled.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import {
+  clearCurrentSession,
+  encodeRecordId,
+  getInitials,
+  getStudents,
+  saveStudentRecord,
+  setSelectedStudentId,
+} from "../../../utils/learnupRecords.js";
 
 const Icon = ({ children, size = 22 }) => (
   <svg
@@ -208,11 +216,32 @@ function StudentProfileModal({ student, onClose }) {
 
 function StudentsEnrolled() {
   const navigate = useNavigate();
+  const [storedStudents] = useState(() =>
+    getStudents().map((student) => ({
+      ...student,
+      avatar: student.avatar || avatarSvg(getInitials(student.name), "#2563eb", "#14b8a6"),
+      status: student.status || "ACTIVE",
+      date: student.date || "Sep 01, 2026",
+      term: student.term || "Fall Semester 2026",
+    })),
+  );
   const [selectedStatus, setSelectedStatus] = useState("ALL");
   const [selectedLevel, setSelectedLevel] = useState("All Levels");
   const [selectedDepartment, setSelectedDepartment] = useState("All Departments");
+  const studentRows = [
+    ...storedStudents,
+    ...students.filter((student) => !storedStudents.some((storedStudent) => storedStudent.id === student.id)),
+  ];
 
-  const filteredStudents = students.filter((student) => {
+  const openStudentProfile = (student) => {
+    saveStudentRecord(student, { markCreated: false });
+    setSelectedStudentId(student.id);
+    navigate(`/admin/student/profile/${encodeRecordId(student.id)}`, {
+      state: { studentId: student.id },
+    });
+  };
+
+  const filteredStudents = studentRows.filter((student) => {
     const statusMatches = selectedStatus === "ALL" || student.status === selectedStatus;
     const levelMatches = selectedLevel === "All Levels" || student.level === selectedLevel;
     const departmentMatches = selectedDepartment === "All Departments" || student.department === selectedDepartment;
@@ -244,14 +273,13 @@ function StudentsEnrolled() {
 
         <div className="students-sidebar-footer">
           <button
-            className="students-advisor-button"
-            onClick={() => navigate("/student/academic-advisor-bot")}
+            className="students-logout-button"
+            onClick={() => {
+              clearCurrentSession();
+              navigate("/login");
+            }}
             type="button"
           >
-            {Icons.bot}
-            <span>Academic Advisor Bot</span>
-          </button>
-          <button className="students-logout-button" onClick={() => navigate("/")} type="button">
             {Icons.logout}
             <span>Logout</span>
           </button>
@@ -359,7 +387,7 @@ function StudentsEnrolled() {
               </thead>
               <tbody>
                 {filteredStudents.map((student) => (
-                  <tr key={student.id} onClick={() => navigate("/student/profile")}>
+                  <tr key={student.id} onClick={() => openStudentProfile(student)}>
                     <td>
                       <div className="students-info-cell">
                         <img src={student.avatar} alt={`${student.name} avatar`} />
@@ -387,7 +415,7 @@ function StudentsEnrolled() {
                         className="students-view-profile"
                         onClick={(event) => {
                           event.stopPropagation();
-                          navigate("/student/profile");
+                          openStudentProfile(student);
                         }}
                       >
                         View Profile
@@ -400,7 +428,7 @@ function StudentsEnrolled() {
           </div>
 
           <footer className="students-pagination-footer">
-            <span>SHOWING {filteredStudents.length} OF {students.length} STUDENTS</span>
+            <span>SHOWING {filteredStudents.length} OF {studentRows.length} STUDENTS</span>
             <div className="students-pagination" aria-label="Pagination">
               <button type="button" aria-label="Previous page">
                 {Icons.chevronLeft}

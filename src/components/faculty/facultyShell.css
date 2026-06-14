@@ -1,22 +1,44 @@
 .faculty-app-shell {
+  --faculty-sidebar-width: 245px;
+  position: relative;
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 245px minmax(0, 1fr);
+  display: block;
   background: #f7f8fc;
   color: #111827;
   font-family: "Inter", "Poppins", "Manrope", system-ui, sans-serif;
 }
 
+.faculty-app-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--faculty-sidebar-width);
+  background: #2024c7;
+  z-index: 0;
+}
+
 .faculty-page-area {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - var(--faculty-sidebar-width));
+  margin-left: var(--faculty-sidebar-width);
   min-width: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: 54px 1fr;
 }
 
 .faculty-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: var(--faculty-sidebar-width);
   min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   padding: 32px 15px 22px;
   background: #2024c7;
   color: #ffffff;
@@ -38,6 +60,7 @@
 
 .faculty-sidebar__nav {
   display: grid;
+  flex: 0 0 auto;
   gap: 36px;
 }
 
@@ -61,12 +84,16 @@
 }
 
 .faculty-sidebar__bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
   display: grid;
-  gap: 21px;
+  flex: 0 0 auto;
+  gap: 16px;
   margin-top: auto;
+  background: #2024c7;
 }
 
-.faculty-sidebar__bot,
 .faculty-sidebar__logout {
   min-height: 49px;
   display: inline-flex;
@@ -79,13 +106,6 @@
   text-decoration: none;
 }
 
-.faculty-sidebar__bot {
-  border-radius: 999px;
-  background: #ffffff;
-  color: #141fc7;
-  box-shadow: 0 15px 26px rgba(8, 12, 90, 0.18);
-}
-
 .faculty-sidebar__logout {
   border: 1.5px solid rgba(255, 255, 255, 0.88);
   border-radius: 8px;
@@ -94,6 +114,8 @@
 }
 
 .faculty-topbar {
+  width: 100%;
+  min-width: 0;
   height: 54px;
   display: grid;
   grid-template-columns: 292px minmax(120px, 1fr) 220px;
@@ -199,7 +221,7 @@
 
 @media (max-width: 1050px) {
   .faculty-app-shell {
-    grid-template-columns: 220px minmax(0, 1fr);
+    --faculty-sidebar-width: 220px;
   }
 
   .faculty-topbar {
@@ -217,10 +239,24 @@
 
 @media (max-width: 760px) {
   .faculty-app-shell {
+    --faculty-sidebar-width: 0px;
+    display: grid;
     grid-template-columns: 1fr;
   }
 
+  .faculty-app-shell::before {
+    content: none;
+  }
+
+  .faculty-page-area {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .faculty-sidebar {
+    position: static;
+    width: 100%;
     min-height: auto;
+    height: auto;
   }
 }

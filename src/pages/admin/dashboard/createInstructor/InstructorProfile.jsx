@@ -69,7 +69,7 @@ export default function InstructorProfile() {
       return;
     }
 
-    navigate("/dashboard");
+    navigate("/admin/dashboard");
   };
 
   return (

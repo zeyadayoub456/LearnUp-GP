@@ -1,12 +1,12 @@
-import { Bell, Bot, LayoutDashboard, LogOut, ScrollText } from "lucide-react";
+import { LayoutDashboard, LogOut, ScrollText } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import learnupLogo from "../../assets/learnup-logo.png";
+import { clearCurrentSession } from "../../utils/learnupRecords.js";
 import "./facultyShell.css";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, to: "/faculty/dashboard" },
-  { label: "Course board", icon: ScrollText, to: "/faculty/course-board" },
-  { label: "notifications", icon: Bell, to: "/faculty/notifications" },
+  { label: "Course Board", icon: ScrollText, to: "/faculty/course-board" },
 ];
 
 export default function FacultySidebar() {
@@ -22,7 +22,9 @@ export default function FacultySidebar() {
       <nav className="faculty-sidebar__nav" aria-label="Faculty navigation">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const active = location.pathname === item.to;
+          const active =
+            location.pathname === item.to ||
+            (item.to === "/faculty/course-board" && location.pathname.startsWith("/faculty/courses"));
 
           return (
             <Link
@@ -38,16 +40,12 @@ export default function FacultySidebar() {
       </nav>
 
       <div className="faculty-sidebar__bottom">
-        <Link to="/faculty/academic-advisor-bot" className="faculty-sidebar__bot">
-          <Bot size={22} strokeWidth={2.5} />
-          <span>Academic Advisor Bot</span>
-        </Link>
         <button
           type="button"
           className="faculty-sidebar__logout"
           onClick={() => {
-            localStorage.clear();
-            navigate("/");
+            clearCurrentSession();
+            navigate("/login");
           }}
         >
           <LogOut size={14} strokeWidth={2.6} />

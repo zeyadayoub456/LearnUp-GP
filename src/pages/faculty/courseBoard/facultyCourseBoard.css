@@ -1,13 +1,13 @@
 .faculty-course-board {
   min-width: 0;
-  padding: 52px 28px 42px;
+  padding: 42px 34px 42px;
   background: #f7f8fc;
 }
 
 .faculty-course-board__intro h1 {
   margin: 0;
   color: #111827;
-  font-size: 21px;
+  font-size: 27px;
   font-weight: 900;
   line-height: 1.1;
 }
@@ -19,7 +19,7 @@
 }
 
 .faculty-course-level {
-  margin-top: 24px;
+  margin-top: 30px;
 }
 
 .faculty-course-level > header {
@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 
 .faculty-course-level h2 {
@@ -35,8 +35,8 @@
   margin: 0;
   padding-left: 12px;
   color: #111827;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 850;
 }
 
 .faculty-course-level h2::before {
@@ -59,40 +59,40 @@
 }
 
 .faculty-course-level span {
-  min-width: 74px;
-  height: 14px;
+  min-width: 112px;
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   background: #eef6ff;
   color: #47627f;
-  font-size: 6px;
-  font-weight: 800;
+  font-size: 10px;
+  font-weight: 900;
 }
 
 .faculty-course-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(132px, 1fr));
-  gap: 13px;
+  grid-template-columns: repeat(5, minmax(170px, 1fr));
+  gap: 18px;
 }
 
 .faculty-course-card {
-  min-height: 145px;
+  min-height: 188px;
   overflow: hidden;
-  border-radius: 7px;
+  border-radius: 8px;
   background: #ffffff;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
 .faculty-course-card > div {
-  height: 41px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #2024c7 0%, #005dca 100%);
   color: #ffffff;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 900;
   letter-spacing: .12em;
 }
@@ -103,23 +103,23 @@
 
 .faculty-course-card section {
   display: grid;
-  grid-template-rows: 41px 24px 22px;
-  padding: 12px 13px 11px;
+  grid-template-rows: 52px 38px 34px;
+  padding: 16px 16px 15px;
 }
 
 .faculty-course-card h3 {
   margin: 0;
   color: #111827;
-  font-size: 9px;
+  font-size: 14px;
   font-weight: 900;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .faculty-course-card p {
   margin: 0;
   color: #64748b;
-  font-size: 7px;
-  line-height: 1.15;
+  font-size: 12px;
+  line-height: 1.25;
 }
 
 .faculty-course-card p::first-line {
@@ -128,19 +128,24 @@
 
 .faculty-course-card button {
   width: 100%;
-  height: 22px;
+  height: 34px;
   align-self: end;
   border: 0;
-  border-radius: 4px;
+  border-radius: 7px;
   background: #0057d8;
   color: #ffffff;
-  font-size: 7px;
+  font-size: 11px;
   font-weight: 900;
+  cursor: pointer;
+}
+
+.faculty-course-card button:hover {
+  background: #111fc7;
 }
 
 @media (max-width: 1120px) {
   .faculty-course-grid {
-    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    grid-template-columns: repeat(3, minmax(170px, 1fr));
   }
 }
 

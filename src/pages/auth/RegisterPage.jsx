@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, Lock, Mail, User } from "lucide-react";
 import AuthHeader from "../../components/AuthHeader";
+import { generateStudentId, saveStudentRecord } from "../../utils/learnupRecords.js";
 import "./registerPage.css";
 
 function RegisterPage() {
@@ -17,6 +18,7 @@ function RegisterPage() {
     const formData = new FormData(event.currentTarget);
     const fullName = formData.get("fullName")?.toString().trim() ?? "";
     const email = formData.get("email")?.toString().trim() ?? "";
+    const password = formData.get("password")?.toString() ?? "";
     const isEruEmail = /^[^\s@]+@eru\.edu\.eg$/i.test(email);
 
     console.log("signup submitted", {
@@ -39,6 +41,18 @@ function RegisterPage() {
       })
     );
     localStorage.setItem("learnup:studentEmail", email);
+    saveStudentRecord(
+      {
+        fullName,
+        email,
+        initialPassword: password,
+        studentId: generateStudentId(),
+        department: "Computer Science",
+        level: "Level 1",
+        enrollmentStatus: "Enrolled",
+      },
+      { markCreated: false },
+    );
     navigate("/login");
   };
 

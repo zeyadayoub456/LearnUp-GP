@@ -1,5 +1,4 @@
 import {
-  Bot,
   Grid2X2,
   LogOut,
   ShieldCheck,
@@ -8,6 +7,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import learnupLogo from "../../assets/learnup-logo.png";
+import { clearCurrentSession } from "../../utils/learnupRecords.js";
 import "./adminShell.css";
 
 const navItems = [
@@ -46,11 +46,14 @@ export default function AdminSidebar() {
       </nav>
 
       <div className="admin-sidebar-v2__bottom">
-        <Link to="/student/academic-advisor-bot" className="admin-sidebar-v2__bot">
-          <Bot size={22} strokeWidth={2.5} />
-          <span>Academic Advisor Bot</span>
-        </Link>
-        <button type="button" className="admin-sidebar-v2__logout" onClick={() => navigate("/")}>
+        <button
+          type="button"
+          className="admin-sidebar-v2__logout"
+          onClick={() => {
+            clearCurrentSession();
+            navigate("/login");
+          }}
+        >
           <LogOut size={14} strokeWidth={2.5} />
           <span>Logout</span>
         </button>

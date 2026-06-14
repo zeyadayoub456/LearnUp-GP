@@ -37,7 +37,7 @@ export function AssignInstructorModal({ instructor, onClose }) {
       return;
     }
 
-    navigate("/assignment-success");
+    navigate("/admin/assignment-success");
   };
 
   return (

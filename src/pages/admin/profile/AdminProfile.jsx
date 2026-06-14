@@ -18,7 +18,7 @@ export default function AdminProfile() {
         </header>
         <section className="student-profile-info" aria-label="Admin profile details">
           <div><span>Role</span><strong>Platform Administrator</strong></div>
-          <div><span>Email</span><strong>admin@learnup.edu</strong></div>
+          <div><span>Email</span><strong>admin@eru.ad.eg</strong></div>
           <div><span>Department</span><strong>Computer Science</strong></div>
           <div><span>Access Level</span><strong>Superuser</strong></div>
         </section>

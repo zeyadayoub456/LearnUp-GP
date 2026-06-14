@@ -4,11 +4,11 @@ import {
   GraduationCap,
   LayoutDashboard,
   LogOut,
-  Map,
   ScrollText,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import learnupLogo from "../../assets/learnup-logo.png";
+import { clearCurrentSession } from "../../utils/learnupRecords.js";
 import "./studentShell.css";
 
 const navItems = [
@@ -58,8 +58,8 @@ export default function StudentSidebar() {
           type="button"
           className="student-sidebar-v2__logout"
           onClick={() => {
-            localStorage.clear();
-            navigate("/");
+            clearCurrentSession();
+            navigate("/login");
           }}
         >
           <LogOut size={15} strokeWidth={2.5} />

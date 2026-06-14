@@ -3,28 +3,51 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../../../../components/admin/AdminSidebar.jsx";
 import AdminTopbar from "../../../../components/admin/AdminTopbar.jsx";
+import {
+  encodeRecordId,
+  generateStudentId,
+  getInitials,
+  getStudents,
+  saveStudentRecord,
+  setSelectedStudentId,
+} from "../../../../utils/learnupRecords.js";
 import "./createStudent.css";
-
-const students = [
-  { name: "Ahmed Ayman", email: "ahmed@uni.edu", id: "#STU-225140", level: "Level 1", department: "Computer Science" },
-  { name: "Jordan Henderson", email: "j.henderson@uni.edu", id: "#STU-225120", level: "Level 4", department: "Artificial Intelligence" },
-  { name: "Elena Rodriguez", email: "e.rodriguez@uni.edu", id: "#STU-225122", level: "Level 2", department: "Information Systems" },
-  { name: "Marcus Aurelius", email: "m.aurelius@uni.edu", id: "#STU-225144", level: "Level 4", department: "Cyber Security" },
-  { name: "Sarah Jenkins", email: "s.jenkins@uni.edu", id: "#STU-225130", level: "Level 1", department: "Computer Science" },
-  { name: "Omar Khalid", email: "o.khalid@uni.edu", id: "#STU-225123", level: "Level 4", department: "Artificial Intelligence" },
-  { name: "Layla Mansour", email: "l.mansour@uni.edu", id: "#STU-225013", level: "Level 3", department: "Information Systems" },
-  { name: "Zaid Ahmed", email: "z.ahmed@uni.edu", id: "#STU-225234", level: "Level 2", department: "Cyber Security" },
-];
 
 const levels = ["All Levels", "Level 1", "Level 2", "Level 3", "Level 4"];
 const departments = ["All Departments", "Computer Science", "Artificial Intelligence", "Information Systems", "Cyber Security"];
+const genderOptions = ["Male", "Female"];
 
-function StudentModal({ onClose }) {
-  const navigate = useNavigate();
+const getInitialStudentForm = () => ({
+  fullName: "",
+  email: "",
+  phone: "",
+  gender: "Male",
+  nationalId: "",
+  initialPassword: "",
+  studentId: generateStudentId(),
+  level: "Level 1",
+  department: "Computer Science",
+});
+
+function StudentModal({ onClose, onCreate }) {
+  const [form, setForm] = useState(getInitialStudentForm);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onCreate(form);
+  };
 
   return (
     <div className="admin-modal-overlay">
-      <form className="student-create-modal" onSubmit={(event) => { event.preventDefault(); navigate("/student-created"); }}>
+      <form className="student-create-modal" onSubmit={handleSubmit}>
         <button type="button" className="student-create-modal__close" onClick={onClose} aria-label="Close">
           <X size={20} />
         </button>
@@ -32,22 +55,99 @@ function StudentModal({ onClose }) {
         <p>Enroll a new member to the academic portal</p>
 
         <section>
-          <h3><span>♟</span> PERSONAL INFORMATION</h3>
+          <h3><span>P</span> PERSONAL INFORMATION</h3>
           <div className="student-modal-grid">
-            <label className="span-2">Full Name<input defaultValue="e.g.Ahmed Ayman" /></label>
-            <label>Email Address<input defaultValue="Ahmed@university.edu" /></label>
-            <label>Phone Number<input defaultValue="+1 (555) 000-0000" /></label>
-            <label>Gender<select defaultValue="Male"><option>Male</option></select></label>
-            <label>National ID<input defaultValue="505903044134" /></label>
-            <label className="span-2">Initial Password<div><input defaultValue="Ahmed2000034" type="password" /><Eye size={15} /></div></label>
+            <label className="span-2">
+              Full Name
+              <input
+                name="fullName"
+                value={form.fullName}
+                onChange={handleChange}
+                placeholder="e.g. Ahmed Ayman"
+                required
+              />
+            </label>
+            <label>
+              Email Address
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="student@eru.edu.eg"
+                required
+              />
+            </label>
+            <label>
+              Phone Number
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                placeholder="+20 100 000 0000"
+              />
+            </label>
+            <label>
+              Gender
+              <select name="gender" value={form.gender} onChange={handleChange}>
+                {genderOptions.map((gender) => <option key={gender}>{gender}</option>)}
+              </select>
+            </label>
+            <label>
+              National ID
+              <input
+                name="nationalId"
+                value={form.nationalId}
+                onChange={handleChange}
+                placeholder="National ID"
+              />
+            </label>
+            <label className="span-2">
+              Initial Password
+              <div>
+                <input
+                  name="initialPassword"
+                  value={form.initialPassword}
+                  onChange={handleChange}
+                  placeholder="Temporary password"
+                  type="password"
+                  required
+                />
+                <Eye size={15} />
+              </div>
+            </label>
           </div>
         </section>
 
         <section>
-          <h3 className="is-academic"><span>☞</span> ACADEMIC INFO</h3>
+          <h3 className="is-academic"><span>A</span> ACADEMIC INFO</h3>
           <div className="student-modal-grid">
-            <label>Student ID<input defaultValue="#STU-225140" /></label>
-            <label>Department<select defaultValue="Artificial intelligence"><option>Artificial intelligence</option></select></label>
+            <label>
+              Student ID
+              <input
+                name="studentId"
+                value={form.studentId}
+                onChange={handleChange}
+                placeholder="#STU-225140"
+                required
+              />
+            </label>
+            <label>
+              Level
+              <select name="level" value={form.level} onChange={handleChange}>
+                {levels.filter((level) => level !== "All Levels").map((level) => (
+                  <option key={level}>{level}</option>
+                ))}
+              </select>
+            </label>
+            <label className="span-2">
+              Department
+              <select name="department" value={form.department} onChange={handleChange}>
+                {departments.filter((department) => department !== "All Departments").map((department) => (
+                  <option key={department}>{department}</option>
+                ))}
+              </select>
+            </label>
           </div>
           <div className="student-modal-note">
             <Info size={16} />
@@ -66,18 +166,38 @@ function StudentModal({ onClose }) {
 
 export default function CreateStudent() {
   const [open, setOpen] = useState(false);
+  const [students, setStudents] = useState(() => getStudents());
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("All Levels");
   const [selectedDepartment, setSelectedDepartment] = useState("All Departments");
   const navigate = useNavigate();
 
   const filteredStudents = students.filter((student) => {
+    const query = searchTerm.trim().toLowerCase();
+    const matchesQuery =
+      !query ||
+      student.name.toLowerCase().includes(query) ||
+      student.email.toLowerCase().includes(query) ||
+      student.id.toLowerCase().includes(query);
     const levelMatches = selectedLevel === "All Levels" || student.level === selectedLevel;
     const departmentMatches = selectedDepartment === "All Departments" || student.department === selectedDepartment;
-    return levelMatches && departmentMatches;
+    return matchesQuery && levelMatches && departmentMatches;
   });
 
-  const openStudentProfile = () => {
-    navigate("/student/profile");
+  const openStudentProfile = (student) => {
+    setSelectedStudentId(student.id);
+    navigate(`/admin/student/profile/${encodeRecordId(student.id)}`, {
+      state: { studentId: student.id },
+    });
+  };
+
+  const handleCreateStudent = (formValues) => {
+    const student = saveStudentRecord(formValues);
+    setStudents(getStudents());
+    setOpen(false);
+    navigate(`/admin/student-created/${encodeRecordId(student.id)}`, {
+      state: { studentId: student.id },
+    });
   };
 
   return (
@@ -92,7 +212,15 @@ export default function CreateStudent() {
           <section className="student-filters">
             <div>
               <span>FIND STUDENTS</span>
-              <label><Search size={16} /><input type="search" placeholder="Search by student name or ID" /></label>
+              <label>
+                <Search size={16} />
+                <input
+                  type="search"
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                  placeholder="Search by student name or ID"
+                />
+              </label>
             </div>
             <label className="student-filter-select">
               <span>LEVEL</span>
@@ -120,10 +248,10 @@ export default function CreateStudent() {
                 </tr>
               </thead>
               <tbody>
-                {filteredStudents.map((student, index) => (
-                  <tr key={student.id} onClick={openStudentProfile} className="student-table-row">
+                {filteredStudents.map((student) => (
+                  <tr key={student.id} onClick={() => openStudentProfile(student)} className="student-table-row">
                     <td>
-                      <span className={`student-table-avatar avatar-${index}`}>{student.name.split(" ").map((p) => p[0]).join("").slice(0, 2)}</span>
+                      <span className="student-table-avatar">{getInitials(student.name)}</span>
                       <div><strong>{student.name}</strong><small>{student.email}</small></div>
                     </td>
                     <td>{student.id}</td>
@@ -135,7 +263,7 @@ export default function CreateStudent() {
                         className="student-view-profile"
                         onClick={(event) => {
                           event.stopPropagation();
-                          openStudentProfile();
+                          openStudentProfile(student);
                         }}
                       >
                         View Profile
@@ -148,7 +276,11 @@ export default function CreateStudent() {
             <footer>
               <span>Showing {filteredStudents.length} of {students.length} students</span>
               <div>
-                <button type="button">‹</button><button type="button">2</button><button type="button" className="active">1</button><button type="button">3</button><button type="button">›</button>
+                <button type="button">&lt;</button>
+                <button type="button">2</button>
+                <button type="button" className="active">1</button>
+                <button type="button">3</button>
+                <button type="button">&gt;</button>
               </div>
             </footer>
           </section>
@@ -158,7 +290,7 @@ export default function CreateStudent() {
           </button>
         </main>
       </div>
-      {open && <StudentModal onClose={() => setOpen(false)} />}
+      {open && <StudentModal onClose={() => setOpen(false)} onCreate={handleCreateStudent} />}
     </div>
   );
 }

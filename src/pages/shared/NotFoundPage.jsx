@@ -12,11 +12,11 @@ function NotFoundPage() {
           <span className="eyebrow">404</span>
           <h1>The page you requested is not available.</h1>
           <p>
-            The route may have changed while the project was being rebuilt. Head back to the role
-            selection page and continue from there.
+            The route may have changed while the project was being rebuilt. Head back to login
+            and continue from your dashboard.
           </p>
           <div className="inline-actions">
-            <AppButton to={routePaths.roleSelection}>Go to role selection</AppButton>
+            <AppButton to={routePaths.login}>Go to login</AppButton>
             <AppButton to={routePaths.roleHome} variant="secondary">
               Try my dashboard
             </AppButton>

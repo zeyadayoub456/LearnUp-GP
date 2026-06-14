@@ -308,7 +308,7 @@
 
 .student-dashboard-board__title h2 {
   color: #0d0f1e;
-  font-size: 23px;
+  font-size: 26px;
   font-weight: 850;
   text-transform: lowercase;
   text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16);
@@ -316,7 +316,7 @@
 
 .student-dashboard-board__title a {
   color: #0d16d3;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
 }
 
@@ -325,7 +325,7 @@
 }
 
 .student-dashboard-board__tabs {
-  height: 36px;
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   gap: 0;
@@ -336,14 +336,14 @@
 }
 
 .student-dashboard-board__tabs button {
-  min-width: 92px;
-  height: 36px;
+  min-width: 102px;
+  min-height: 40px;
   border: 0;
   border-radius: 8px;
   background: transparent;
   color: #1f2937;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .student-dashboard-board__tabs button.is-active {
@@ -352,8 +352,8 @@
 }
 
 .student-dashboard-board__filter {
-  width: 254px;
-  height: 38px;
+  width: 286px;
+  height: 40px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -370,7 +370,7 @@
   border: 0;
   outline: 0;
   color: #24314d;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 650;
 }
 
@@ -389,13 +389,13 @@
 
 .student-dashboard-table-card th,
 .student-dashboard-table-card td {
-  padding: 15px 20px;
+  padding: 17px 20px;
   text-align: left;
 }
 
 .student-dashboard-table-card th {
   color: #667085;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -404,19 +404,19 @@
 .student-dashboard-table-card td {
   border-top: 1px solid #edf0f5;
   color: #101629;
-  font-size: 12px;
-  font-weight: 650;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .student-dashboard-table-card td:first-child {
   display: grid;
-  grid-template-columns: 22px minmax(0, 116px);
+  grid-template-columns: 26px minmax(0, 150px);
   align-items: center;
   gap: 10px;
 }
 
 .student-dashboard-table-card td:first-child strong {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   line-height: 1.1;
 }
@@ -428,8 +428,8 @@
 }
 
 .student-dashboard-table-card__course-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -445,10 +445,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 77px;
-  height: 19px;
+  min-width: 88px;
+  height: 24px;
   border-radius: 999px;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 900;
   letter-spacing: 0.08em;
 }
@@ -459,16 +459,16 @@
 .student-dashboard-status.is-passed { background: #fff0bf; color: #f59e0b; }
 
 .student-dashboard-action {
-  min-width: 97px;
-  min-height: 34px;
+  min-width: 112px;
+  min-height: 38px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   border: 0;
   border-radius: 7px;
-  font-size: 11px;
-  font-weight: 850;
+  font-size: 13px;
+  font-weight: 900;
 }
 
 .student-dashboard-action.is-available { background: #075bcc; color: #ffffff; }
@@ -484,7 +484,7 @@
   padding: 0 20px;
   border-top: 1px solid #edf0f5;
   color: #1f2937;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
 }
 

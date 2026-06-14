@@ -1,26 +1,15 @@
 import { AlertTriangle, Star, Users } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import FacultySidebar from "../../../components/faculty/FacultySidebar.jsx";
-import FacultyTopbar from "../../../components/faculty/FacultyTopbar.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import FacultyLayout from "../../../components/faculty/FacultyLayout.jsx";
+import {
+  facultySnapshotStudents,
+  getFacultyStatusClass,
+} from "../../../data/facultyStudents.js";
+import {
+  encodeRecordId,
+  setSelectedStudentId,
+} from "../../../utils/learnupRecords.js";
 import "./facultyDashboard.css";
-
-const students = [
-  { name: "Sarah Miller", email: "sarah.m@learnup.edu", id: "#UP-9021", level: "LVL 4.00", department: "Computer Science", gpa: "3.85", status: "EXCELLENT", avatar: "sarah" },
-  { name: "Alex Smith", email: "alex.s@learnup.edu", id: "#UP-1209", level: "LVL 3.00", department: "Computer Science", gpa: "1.80", status: "AT RISK", avatar: "alex" },
-  { name: "James Lee", email: "james.l@learnup.edu", id: "#UP-4432", level: "LVL 2.00", department: "Computer Science", gpa: "3.12", status: "NORMAL", avatar: "james" },
-];
-
-function FacultyLayout({ children }) {
-  return (
-    <div className="faculty-app-shell">
-      <FacultySidebar />
-      <div className="faculty-page-area">
-        <FacultyTopbar />
-        {children}
-      </div>
-    </div>
-  );
-}
 
 function StudentAvatar({ type }) {
   return <span className={`faculty-student-avatar faculty-student-avatar--${type}`} />;
@@ -29,12 +18,19 @@ function StudentAvatar({ type }) {
 export default function FacultyDashboard() {
   const navigate = useNavigate();
 
+  const openStudentProfile = (student) => {
+    setSelectedStudentId(student.id);
+    navigate(`/faculty/student/profile/${encodeRecordId(student.id)}`, {
+      state: { studentId: student.id },
+    });
+  };
+
   return (
     <FacultyLayout>
       <main className="faculty-dashboard">
         <header className="faculty-dashboard__intro">
           <h1>Welcome back, Dr. Amira Ahmed (FULL TIME)</h1>
-          <p>Here’s an overview of your students’ academic status</p>
+          <p>Here&apos;s an overview of your students&apos; academic status</p>
         </header>
 
         <section className="faculty-stat-grid" aria-label="Faculty statistics">
@@ -70,7 +66,7 @@ export default function FacultyDashboard() {
         <section className="faculty-snapshot">
           <header>
             <h2>Students Snapshot</h2>
-            <a href="/faculty/dashboard">View All Students →</a>
+            <Link to="/faculty/students">View All Students &rarr;</Link>
           </header>
           <div className="faculty-snapshot__table-wrap">
             <table>
@@ -85,8 +81,8 @@ export default function FacultyDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {students.map((student) => (
-                  <tr key={student.id} onClick={() => navigate("/student/profile")}>
+                {facultySnapshotStudents.map((student) => (
+                  <tr key={student.id} onClick={() => openStudentProfile(student)}>
                     <td>
                       <StudentAvatar type={student.avatar} />
                       <div>
@@ -97,13 +93,13 @@ export default function FacultyDashboard() {
                     <td>{student.id}</td>
                     <td>{student.level}</td>
                     <td><b>{student.gpa}</b></td>
-                    <td><span className={`faculty-status faculty-status--${student.status.toLowerCase().replaceAll(" ", "-")}`}>{student.status}</span></td>
+                    <td><span className={`faculty-status faculty-status--${getFacultyStatusClass(student.status)}`}>{student.status}</span></td>
                     <td>
                       <button
                         type="button"
                         onClick={(event) => {
                           event.stopPropagation();
-                          navigate("/student/profile");
+                          openStudentProfile(student);
                         }}
                       >
                         View Profile
@@ -143,7 +139,7 @@ export default function FacultyDashboard() {
             <div className="faculty-gpa-summary">
               <article>
                 <span>EXCELLENT</span>
-                <strong>3.5 — 4 GPA</strong>
+                <strong>3.5 - 4 GPA</strong>
               </article>
               <article>
                 <span>VERY GOOD</span>
