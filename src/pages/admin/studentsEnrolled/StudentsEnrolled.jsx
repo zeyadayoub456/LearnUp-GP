@@ -1,5 +1,14 @@
 import "./studentsEnrolled.css";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {
+  clearCurrentSession,
+  encodeRecordId,
+  getInitials,
+  getStudents,
+  saveStudentRecord,
+  setSelectedStudentId,
+} from "../../../utils/learnupRecords.js";
 
 const Icon = ({ children, size = 22 }) => (
   <svg
@@ -107,8 +116,8 @@ const Icons = {
 const navItems = [
   { label: "Dashboard", icon: Icons.dashboard, to: "/admin/dashboard" },
   { label: "create student", icon: Icons.student, to: "/admin/create-student" },
-  { label: "create instructor", icon: Icons.instructor, to: "/admin/create-instructor" },
-  { label: "assign instructor", icon: Icons.assign, to: "/admin/assign-instructor" },
+  { label: "create faculty member", icon: Icons.instructor, to: "/admin/create-instructor" },
+  { label: "assign faculty member", icon: Icons.assign, to: "/admin/assign-instructor" },
 ];
 
 const courseDetails = {
@@ -140,6 +149,8 @@ const students = [
     name: "Elena Rodriguez",
     email: "elena.rodriguez@learnup.edu",
     id: "STU-2024-001",
+    level: "Level 2",
+    department: "Artificial Intelligence",
     date: "Aug 28, 2026",
     term: "Fall Semester 2026",
     status: "ACTIVE",
@@ -149,6 +160,8 @@ const students = [
     name: "Julian Vance",
     email: "julian.vance@learnup.edu",
     id: "STU-2024-014",
+    level: "Level 3",
+    department: "Information Systems",
     date: "Aug 29, 2026",
     term: "Fall Semester 2026",
     status: "ACTIVE",
@@ -158,6 +171,8 @@ const students = [
     name: "Sarah Jenkins",
     email: "sarah.jenkins@learnup.edu",
     id: "STU-2024-037",
+    level: "Level 1",
+    department: "Cyber Security",
     date: "Sep 02, 2026",
     term: "Fall Semester 2026",
     status: "DROPPED",
@@ -167,6 +182,8 @@ const students = [
     name: "Marcus Chen",
     email: "marcus.chen@learnup.edu",
     id: "STU-2024-058",
+    level: "Level 4",
+    department: "Computer Science",
     date: "Sep 04, 2026",
     term: "Fall Semester 2026",
     status: "ACTIVE",
@@ -174,12 +191,62 @@ const students = [
   },
 ];
 
-const handleClick = (action) => {
-  console.log(action);
-};
+const levels = ["All Levels", "Level 1", "Level 2", "Level 3", "Level 4"];
+const departments = ["All Departments", "Computer Science", "Artificial Intelligence", "Information Systems", "Cyber Security"];
+
+function StudentProfileModal({ student, onClose }) {
+  if (!student) return null;
+
+  return (
+    <div className="students-profile-overlay">
+      <section className="students-profile-modal" aria-label={`${student.name} profile`}>
+        <button type="button" onClick={onClose} aria-label="Close">×</button>
+        <img src={student.avatar} alt={`${student.name} avatar`} />
+        <h2>{student.name}</h2>
+        <p>{student.email}</p>
+        <dl>
+          <div><dt>Student ID</dt><dd>{student.id}</dd></div>
+          <div><dt>Level</dt><dd>{student.level}</dd></div>
+          <div><dt>Department</dt><dd>{student.department}</dd></div>
+        </dl>
+      </section>
+    </div>
+  );
+}
 
 function StudentsEnrolled() {
   const navigate = useNavigate();
+  const [storedStudents] = useState(() =>
+    getStudents().map((student) => ({
+      ...student,
+      avatar: student.avatar || avatarSvg(getInitials(student.name), "#2563eb", "#14b8a6"),
+      status: student.status || "ACTIVE",
+      date: student.date || "Sep 01, 2026",
+      term: student.term || "Fall Semester 2026",
+    })),
+  );
+  const [selectedStatus, setSelectedStatus] = useState("ALL");
+  const [selectedLevel, setSelectedLevel] = useState("All Levels");
+  const [selectedDepartment, setSelectedDepartment] = useState("All Departments");
+  const studentRows = [
+    ...storedStudents,
+    ...students.filter((student) => !storedStudents.some((storedStudent) => storedStudent.id === student.id)),
+  ];
+
+  const openStudentProfile = (student) => {
+    saveStudentRecord(student, { markCreated: false });
+    setSelectedStudentId(student.id);
+    navigate(`/admin/student/profile/${encodeRecordId(student.id)}`, {
+      state: { studentId: student.id },
+    });
+  };
+
+  const filteredStudents = studentRows.filter((student) => {
+    const statusMatches = selectedStatus === "ALL" || student.status === selectedStatus;
+    const levelMatches = selectedLevel === "All Levels" || student.level === selectedLevel;
+    const departmentMatches = selectedDepartment === "All Departments" || student.department === selectedDepartment;
+    return statusMatches && levelMatches && departmentMatches;
+  });
 
   return (
     <div className="students-enrolled-page">
@@ -206,14 +273,13 @@ function StudentsEnrolled() {
 
         <div className="students-sidebar-footer">
           <button
-            className="students-advisor-button"
-            onClick={() => navigate("/student/academic-advisor-bot")}
+            className="students-logout-button"
+            onClick={() => {
+              clearCurrentSession();
+              navigate("/login");
+            }}
             type="button"
           >
-            {Icons.bot}
-            <span>Academic Advisor Bot</span>
-          </button>
-          <button className="students-logout-button" onClick={() => navigate("/")} type="button">
             {Icons.logout}
             <span>Logout</span>
           </button>
@@ -233,21 +299,22 @@ function StudentsEnrolled() {
           <div className="students-top-profile">
             <button
               className="students-notification-button"
-              onClick={() => handleClick("Notifications")}
               type="button"
               aria-label="Notifications"
             >
               {Icons.bell}
             </button>
-            <div className="students-admin-user">
-              <span>Executive Admin</span>
-              <strong>SUPERUSER</strong>
-            </div>
-            <img
-              className="students-admin-avatar"
-              src={avatarSvg("EA", "#172554", "#00a6a6")}
-              alt="Executive Admin avatar"
-            />
+            <button type="button" className="students-top-profile-button" onClick={() => navigate("/admin/profile")}>
+              <span className="students-admin-user">
+                <span>Executive Admin</span>
+                <strong>SUPERUSER</strong>
+              </span>
+              <img
+                className="students-admin-avatar"
+                src={avatarSvg("EA", "#172554", "#00a6a6")}
+                alt="Executive Admin avatar"
+              />
+            </button>
           </div>
         </header>
 
@@ -268,7 +335,7 @@ function StudentsEnrolled() {
           <p>
             Managing {courseDetails.count} active students in the current semester.
             <br />
-            Instructor: {courseDetails.instructor}
+            Faculty Member: {courseDetails.instructor}
           </p>
         </section>
 
@@ -280,7 +347,7 @@ function StudentsEnrolled() {
 
           <label className="students-select-field">
             <span>STATUS:</span>
-            <select defaultValue="ALL" aria-label="Status filter">
+            <select value={selectedStatus} onChange={(event) => setSelectedStatus(event.target.value)} aria-label="Status filter">
               <option>ALL</option>
               <option>ACTIVE</option>
               <option>DROPPED</option>
@@ -289,12 +356,15 @@ function StudentsEnrolled() {
 
           <label className="students-select-field">
             <span>LEVEL:</span>
-            <select defaultValue="ALL" aria-label="Level filter">
-              <option>ALL</option>
-              <option>100</option>
-              <option>200</option>
-              <option>300</option>
-              <option>400</option>
+            <select value={selectedLevel} onChange={(event) => setSelectedLevel(event.target.value)} aria-label="Level filter">
+              {levels.map((level) => <option key={level}>{level}</option>)}
+            </select>
+          </label>
+
+          <label className="students-select-field">
+            <span>DEPARTMENT:</span>
+            <select value={selectedDepartment} onChange={(event) => setSelectedDepartment(event.target.value)} aria-label="Department filter">
+              {departments.map((department) => <option key={department}>{department}</option>)}
             </select>
           </label>
 
@@ -312,11 +382,12 @@ function StudentsEnrolled() {
                   <th>STUDENT ID</th>
                   <th>ENROLLMENT DATE</th>
                   <th>STATUS</th>
+                  <th>ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                {students.map((student) => (
-                  <tr key={student.id}>
+                {filteredStudents.map((student) => (
+                  <tr key={student.id} onClick={() => openStudentProfile(student)}>
                     <td>
                       <div className="students-info-cell">
                         <img src={student.avatar} alt={`${student.name} avatar`} />
@@ -338,6 +409,18 @@ function StudentsEnrolled() {
                         {student.status}
                       </span>
                     </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="students-view-profile"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          openStudentProfile(student);
+                        }}
+                      >
+                        View Profile
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -345,7 +428,7 @@ function StudentsEnrolled() {
           </div>
 
           <footer className="students-pagination-footer">
-            <span>SHOWING 4 OF 124 STUDENTS</span>
+            <span>SHOWING {filteredStudents.length} OF {studentRows.length} STUDENTS</span>
             <div className="students-pagination" aria-label="Pagination">
               <button type="button" aria-label="Previous page">
                 {Icons.chevronLeft}

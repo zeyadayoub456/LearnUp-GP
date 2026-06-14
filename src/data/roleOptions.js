@@ -9,7 +9,7 @@ export const roleOptions = [
   },
   {
     id: 'instructor',
-    label: 'Instructor',
+    label: 'Faculty Member',
     eyebrow: 'Teaching workspace',
     description:
       'Organize courses, communicate with students, post announcements, and manage class progress.',
@@ -34,7 +34,7 @@ export const roleContent = {
   instructor: {
     heading: 'Prepare a polished teaching flow',
     body:
-      'Instructor access is available through the same auth system, so we can expand instructor tools on top of the same reusable structure.',
+      'Faculty Member access is available through the same auth system, so we can expand faculty tools on top of the same reusable structure.',
   },
   student: {
     heading: 'Stay on top of every learning milestone',

@@ -10,7 +10,7 @@ export default function AssignmentSuccess() {
       <section className="assignment-success-shell-v2">
         <header>
           <div><CheckCircle size={34} fill="#2024c7" color="#ffffff" /></div>
-          <h1>Instructor Assigned Successfully</h1>
+          <h1>Faculty Member Assigned Successfully</h1>
           <p>The curricular assignment has been finalized and notified to all parties.</p>
         </header>
 
@@ -24,7 +24,7 @@ export default function AssignmentSuccess() {
           <span className="assignment-arrow"><ArrowRight size={23} /></span>
           <article className="is-instructor">
             <span className="assignment-avatar" />
-            <small>INSTRUCTOR</small>
+            <small>FACULTY MEMBER</small>
             <h2>Dr. Sara jenkis</h2>
           </article>
         </section>

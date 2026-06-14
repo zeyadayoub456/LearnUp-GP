@@ -12,8 +12,8 @@ const stats = [
 
 const actions = [
   { label: "CREATE STUDENT", icon: UserPlus, to: "/admin/create-student" },
-  { label: "CREATE INSTRUCTOR", icon: GraduationCap, to: "/admin/create-instructor" },
-  { label: "ASSIGN INSTRUCTOR", icon: BookOpen, to: "/admin/assign-instructor" },
+  { label: "CREATE FACULTY MEMBER", icon: GraduationCap, to: "/admin/create-instructor" },
+  { label: "ASSIGN FACULTY MEMBER", icon: BookOpen, to: "/admin/assign-instructor" },
 ];
 
 export default function Dashboard() {

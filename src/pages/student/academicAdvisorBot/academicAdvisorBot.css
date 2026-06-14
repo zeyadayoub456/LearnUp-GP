@@ -1,8 +1,11 @@
 .advisor-bot-page {
+  --student-sidebar-width: 250px;
+  width: calc(100% - var(--student-sidebar-width));
   height: 100vh;
   min-height: 720px;
+  margin-left: var(--student-sidebar-width);
   display: grid;
-  grid-template-columns: 250px 360px minmax(0, 1fr);
+  grid-template-columns: 360px minmax(0, 1fr);
   overflow: hidden;
   background: #f4f7fb;
   color: #111827;
@@ -410,7 +413,8 @@
 
 @media (max-width: 1220px) {
   .advisor-bot-page {
-    grid-template-columns: 220px 320px minmax(0, 1fr);
+    --student-sidebar-width: 220px;
+    grid-template-columns: 320px minmax(0, 1fr);
   }
 }
 
@@ -430,6 +434,14 @@
 
   .advisor-chat {
     min-height: 720px;
+  }
+}
+
+@media (max-width: 760px) {
+  .advisor-bot-page {
+    --student-sidebar-width: 0px;
+    width: 100%;
+    margin-left: 0;
   }
 }
 

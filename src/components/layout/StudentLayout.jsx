@@ -5,6 +5,7 @@ import AppButton from '../common/AppButton'
 import { useAuth } from '../../context/useAuth'
 import { studentNavigation } from '../../utils/routePaths'
 import { getInitials } from '../../utils/formatters'
+import { clearCurrentSession } from '../../utils/learnupRecords.js'
 
 function StudentLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -17,9 +18,9 @@ function StudentLayout() {
     studentNavigation[0]
 
   function handleLogout() {
-    localStorage.clear()
+    clearCurrentSession()
     logout()
-    navigate('/who-are-you')
+    navigate('/login')
   }
 
   return (

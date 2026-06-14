@@ -1,7 +1,10 @@
 import { Bell, CircleHelp, MessageSquare, Search, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./studentShell.css";
 
 export default function StudentTopbar({ dashboardTabs = false }) {
+  const navigate = useNavigate();
+
   return (
     <header className={`student-topbar-v2 ${dashboardTabs ? "student-topbar-v2--dashboard" : ""}`}>
       <label className="student-topbar-v2__search">
@@ -41,13 +44,13 @@ export default function StudentTopbar({ dashboardTabs = false }) {
             <CircleHelp size={19} strokeWidth={2} />
           </button>
         )}
-        <div className="student-topbar-v2__user">
+        <button type="button" className="student-topbar-v2__user" onClick={() => navigate("/student/profile")}>
           <div>
             <strong>Alex Rivera</strong>
             <span>LEVEL 200</span>
           </div>
           <span className="student-topbar-v2__avatar" aria-label="Alex Rivera" role="img" />
-        </div>
+        </button>
       </div>
     </header>
   );

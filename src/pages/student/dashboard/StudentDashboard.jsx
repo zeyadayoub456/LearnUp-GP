@@ -11,6 +11,7 @@ import {
   Sparkles,
   UserRoundSearch,
 } from "lucide-react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import StudentSidebar from "../../../components/student/StudentSidebar.jsx";
 import StudentTopbar from "../../../components/student/StudentTopbar.jsx";
@@ -62,6 +63,16 @@ const rows = [
 const tabs = ["All Courses", "Available", "Enrolled", "Locked", "Passed"];
 
 export default function StudentDashboard() {
+  const [activeTab, setActiveTab] = useState("All Courses");
+
+  const filteredRows = useMemo(() => {
+    if (activeTab === "All Courses") {
+      return rows;
+    }
+
+    return rows.filter((row) => row.tone === activeTab.toLowerCase());
+  }, [activeTab]);
+
   return (
     <div className="student-app-shell student-dashboard-page">
       <StudentSidebar />
@@ -155,8 +166,14 @@ export default function StudentDashboard() {
 
             <div className="student-dashboard-board__toolbar">
               <div className="student-dashboard-board__tabs">
-                {tabs.map((tab, index) => (
-                  <button key={tab} type="button" className={index === 0 ? "is-active" : ""}>
+                {tabs.map((tab) => (
+                  <button
+                    key={tab}
+                    type="button"
+                    aria-selected={activeTab === tab}
+                    className={activeTab === tab ? "is-active" : ""}
+                    onClick={() => setActiveTab(tab)}
+                  >
                     {tab}
                   </button>
                 ))}
@@ -180,7 +197,7 @@ export default function StudentDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((row) => {
+                  {filteredRows.map((row) => {
                     const Icon = row.icon;
                     return (
                       <tr key={row.name}>
@@ -210,7 +227,7 @@ export default function StudentDashboard() {
                 </tbody>
               </table>
               <div className="student-dashboard-table-card__footer">
-                <span>Showing 4 courses available for your level</span>
+                <span>Showing {filteredRows.length} courses available for your level</span>
                 <div>
                   <button type="button">‹</button>
                   <button type="button" className="is-active">1</button>
